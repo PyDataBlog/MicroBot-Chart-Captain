@@ -1,5 +1,24 @@
 #!/bin/bash
 
+# bash setup_kind_cluster.sh -e user@example.com
+
+# Parse command line arguments
+while getopts ":e:" opt; do
+  case ${opt} in
+    e )
+      EMAIL=$OPTARG
+      ;;
+    \? )
+      echo "Invalid option: -$OPTARG" 1>&2
+      exit 1
+      ;;
+    : )
+      echo "Option -$OPTARG requires an argument." 1>&2
+      exit 1
+      ;;
+  esac
+done
+
 # Create a Kind cluster
 echo "Creating a Kind cluster..."
 kind create cluster
@@ -22,7 +41,7 @@ metadata:
 spec:
   acme:
     server: https://acme-v02.api.letsencrypt.org/directory
-    email: pimpfada@gmail.com
+    email: $EMAIL
     privateKeySecretRef:
       name: letsencrypt-prod
     solvers:
