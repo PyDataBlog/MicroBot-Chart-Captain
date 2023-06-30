@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "MyMicroBotDemo.fullname" . }}
+  labels:
+    {{- include "MyMicroBotDemo.labels" . | nindent 4 }}
+spec:
+  type: {{ if .Values.ingress.enabled }}ClusterIP{{ else }}LoadBalancer{{ end }}
+  ports:
+    - port: {{ .Values.service.port }}
+      targetPort: http
+  selector:
+    app: {{ include "MyMicroBotDemo.fullname" . }}

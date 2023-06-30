@@ -1,0 +1,18 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: "{{ include "MyMicroBotDemo.fullname" . }}-test-connection"
+  annotations:
+    "helm.sh/hook": test
+spec:
+  template:
+    metadata:
+      labels:
+        {{- include "MyMicroBotDemo.labels" . | nindent 8 }}
+    spec:
+      containers:
+        - name: wget
+          image: busybox
+          command: ['wget']
+          args:  ['{{ include "MyMicroBotDemo.fullname" . }}.{{ .Release.Namespace }}:{{ .Values.service.port }}']
+      restartPolicy: Never

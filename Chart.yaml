@@ -1,0 +1,4 @@
+apiVersion: v2
+name: MyMicroBotDemo
+description: A Helm chart for deploying Microbot Demo on Kubernetes
+version: 0.1.0
