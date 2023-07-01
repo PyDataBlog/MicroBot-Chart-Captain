@@ -19,21 +19,39 @@ while getopts ":e:" opt; do
   esac
 done
 
-# Create a Kind cluster
-echo "Creating a Kind cluster..."
-kind create cluster
+# Create a microk8s cluster
+echo "Creating a cluster..."
+sudo snap install microk8s --classic --channel=1.27/stable
+microk8s status --wait-ready
+sudo usermod -a -G microk8s $USER
+sudo chown -f -R $USER ~/.kube
+newgrp microk8s
 
 # Install the Nginx Ingress Controller
 echo "Installing Nginx Ingress Controller..."
-kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.8.0/deploy/static/provider/kind/deploy.yaml
+microk8s kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.8.1/deploy/static/provider/cloud/deploy.yaml
+
+# Wait for the Nginx Ingress Controller to be ready
+echo "Waiting for the Nginx Ingress Controller to be ready..."
+microk8s kubectl wait --namespace ingress-nginx \
+  --for=condition=ready pod \
+  --selector=app.kubernetes.io/component=controller \
+  --timeout=300s
 
 # Install Cert-Manager
 echo "Installing Cert-Manager..."
-kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.12.0-beta.1/cert-manager.yaml
+microk8s kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.12.0/cert-manager.yaml
+
+# Wait for the Cert-Manager to be ready
+echo "Waiting for the Cert-Manager to be ready..."
+microk8s kubectl wait --namespace cert-manager \
+  --for=condition=ready pod \
+  --selector=app.kubernetes.io/component=controller \
+  --timeout=300s
 
 # Create Let's Encrypt Issuer
 echo "Creating Let's Encrypt Issuer..."
-cat <<EOF | kubectl apply -f -
+cat <<EOF | microk8s kubectl apply -f -
 apiVersion: cert-manager.io/v1
 kind: ClusterIssuer
 metadata:

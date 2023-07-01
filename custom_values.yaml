@@ -5,13 +5,9 @@ image:
   pullPolicy: IfNotPresent
   tag: "v1"
 
-service:
-  type: LoadBalancer
-  port: 80
-
 ingress:
-  enabled: false
-  hostname: ""
+  enabled: true
+  hostname: "mymicrobot.bebr.local"
   tls:
-    enabled: false
-    issuerName: ""
+  - enabled: true
+    issuerName: "letsencrypt-prod"
