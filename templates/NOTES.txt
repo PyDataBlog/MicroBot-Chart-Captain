@@ -1,0 +1,24 @@
+Thank you for installing MyMicroBotDemo!
+
+Your release is named {{ .Release.Name }}.
+
+To get started with your new deployment, you can run the following command to check the status of the deployed resources:
+
+```bash
+kubectl get all -l "app.kubernetes.io/name={{ include "MyMicroBotDemo.fullname" . }}"
+```
+
+If you enabled ingress, you can access the application using the following URL:
+
+{{- if .Values.ingress.enabled }}
+https://{{ .Values.ingress.hostname }}
+{{- else }}
+Ingress is not enabled. You can enable it by setting `ingress.enabled` to `true` in your values file.
+{{- end }}
+
+
+If you enabled TLS for ingress, please ensure that the certificate has been issued successfully before accessing the application over HTTPS. You can check the status of the certificate with:
+
+```bash
+kubectl describe certificate {{ include "MyMicroBotDemo.fullname" . }}-tls
+```
