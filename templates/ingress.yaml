@@ -20,10 +20,11 @@ spec:
             name: {{ include "MyMicroBotDemo.fullname" . }}
             port:
               number: 80
-  {{- if .Values.ingress.tls.enabled -}}
+  {{- if .Values.ingress.tls.enabled }}
   tls:
   - hosts:
     - {{ .Values.ingress.hostname }}
     secretName: {{ include "MyMicroBotDemo.fullname" . }}-tls
   {{- end }}
 {{- end }}
+
