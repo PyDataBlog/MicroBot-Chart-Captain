@@ -9,5 +9,5 @@ ingress:
   enabled: true
   hostname: "mymicrobot.bebr.local"
   tls:
-  - enabled: true
+    enabled: true
     issuerName: "letsencrypt-prod"
