@@ -1,0 +1,13 @@
+replicaCount: 1
+
+image:
+  repository: dontrebootme/microbot
+  pullPolicy: IfNotPresent
+  tag: "v1"
+
+ingress:
+  enabled: true
+  hostname: "mymicrobot.bebr.net"
+  tls:
+    enabled: true
+    issuerName: "letsencrypt-prod"

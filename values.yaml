@@ -1,0 +1,17 @@
+replicaCount: 1
+
+image:
+  repository: dontrebootme/microbot
+  pullPolicy: IfNotPresent
+  tag: "v1"
+
+service:
+  type: LoadBalancer
+  port: 80
+
+ingress:
+  enabled: false
+  hostname: ""
+  tls:
+    enabled: false
+    issuerName: ""
