@@ -26,12 +26,12 @@ The following table lists the configurable parameters of the chart and their def
 
 | Parameter | Description | Default |
 | --- | --- | --- |
-| `image.repository` | The Docker image repository to use | `bebr/microbot` |
-| `image.tag` | The Docker image tag to use | `latest` |
-| `service.type` | The Kubernetes service type to use | `ClusterIP` |
-| `service.port` | The port number to use for the Kubernetes service | `8080` |
-| `ingress.enabled` | Whether to enable Kubernetes ingress | `true` |
-| `ingress.hostname` | The hostname to use for the Kubernetes ingress | `mymicrobot.local` |
+| `image.repository` | The Docker image repository to use | `dontrebootme/microbot` |
+| `image.tag` | The Docker image tag to use | `v1` |
+| `service.type` | The Kubernetes service type to use | `LoadBalancer` |
+| `service.port` | The port number to use for the Kubernetes service | `80` |
+| `ingress.enabled` | Whether to enable Kubernetes ingress | `false` |
+| `ingress.hostname` | The hostname to use for the Kubernetes ingress | `` |
 | `ingress.tls` | The TLS configuration for the Kubernetes ingress | `[]` |
 
 You can override these values by creating a `custom_values.yaml` file and specifying your own values.
